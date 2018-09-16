@@ -15,16 +15,14 @@ JLabel infoLabel;
         this.getContentPane().setLayout(new java.awt.BorderLayout());
         infoLabel = new JLabel(info);
         infoLabel.setForeground(Color.WHITE);
-        infoLabel.setFont(new Font("Helvetica", Font.CENTER_BASELINE, fontSize));
+        infoLabel.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
         this.getContentPane().add(infoLabel, java.awt.BorderLayout.SOUTH);
-        this.setLocation(300, 20);
+        this.setLocation(500, 10);
 
     }
 
     public void updateLabel(String info){
-
         infoLabel.setText(info);
-        infoLabel.repaint();
         this.pack();
     }
 
