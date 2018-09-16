@@ -21,7 +21,7 @@ public class FileReader {
             fis.read(data);
             fis.close();
             String fileData = new String(data, "UTF-8");
-            String[] songArray = fileData.split("/n");
+            String[] songArray = fileData.split("\\r?\\n");
             return songArray;
         } catch (IOException ex){
             return new String[]{ex.getMessage()};

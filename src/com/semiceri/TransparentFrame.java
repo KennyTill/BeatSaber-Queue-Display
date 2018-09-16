@@ -18,11 +18,14 @@ JLabel infoLabel;
         infoLabel.setFont(new Font("Helvetica", Font.CENTER_BASELINE, fontSize));
         this.getContentPane().add(infoLabel, java.awt.BorderLayout.SOUTH);
         this.setLocation(300, 20);
-        this.pack();
+
     }
 
     public void updateLabel(String info){
+
         infoLabel.setText(info);
+        infoLabel.repaint();
+        this.pack();
     }
 
 
