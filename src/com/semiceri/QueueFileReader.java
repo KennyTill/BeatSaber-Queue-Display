@@ -4,14 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class FileReader {
+public class QueueFileReader {
 
-    final String fileLocation;
-    final File file;
+    private final String fileLocation;
+    private final File file;
+    private final String queueFileName = "/queuefile";
 
-    public FileReader(String fileLocation) {
-        this.fileLocation = fileLocation;
-        this.file = new File(fileLocation);
+    public QueueFileReader(String fileLocation) {
+        this.fileLocation = fileLocation + queueFileName;
+        this.file = new File(this.fileLocation);
     }
 
     public String[] readFile(){

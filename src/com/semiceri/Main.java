@@ -5,20 +5,26 @@ public class Main {
     public static void main(String[] args) {
 
         if (args.length == 0){
-            System.out.println("No queue file specified");
+            System.out.println("No file path specified");
         }
 
-        String queueFileLocation = args[0];
-        TransparentFrame playerFrame = new TransparentFrame("", 75);
+        String filePath = args[0];
+        int[] postionValues;
+        //get config values
+        ConfigFileReader configReader = new ConfigFileReader(filePath);
+        postionValues = configReader.getPositionValuesFromFile();
+
+
+        TransparentFrame playerFrame = new TransparentFrame("", 75, postionValues[0], postionValues[1]);
         playerFrame.setVisible(true);
         playerFrame.updateLabel("Awaiting Player");
 
-        TransparentFrame queueFrame = new TransparentFrame("someinfo", 20);
+        TransparentFrame queueFrame = new TransparentFrame("someinfo", 20, postionValues[2], postionValues[3]);
         queueFrame.setLocation(960, 50);
         queueFrame.setVisible(true);
 
         try {
-            FileReader queueReader = new FileReader(queueFileLocation);
+            QueueFileReader queueReader = new QueueFileReader(filePath);
 
 
             while (true) {

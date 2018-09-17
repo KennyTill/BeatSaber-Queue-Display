@@ -7,7 +7,7 @@ public class TransparentFrame extends JFrame{
 
 JLabel infoLabel;
 
-    public TransparentFrame(String info, int fontSize){
+    public TransparentFrame(String info, int fontSize, int xpos, int ypos){
         super("Transparent Frame");
         this.setUndecorated(true);
         this.setBackground(new Color(0, 0, 0, 0));
@@ -17,7 +17,7 @@ JLabel infoLabel;
         infoLabel.setForeground(Color.WHITE);
         infoLabel.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
         this.getContentPane().add(infoLabel, java.awt.BorderLayout.SOUTH);
-        this.setLocation(500, 10);
+        this.setLocation(xpos, ypos);
 
     }
 
