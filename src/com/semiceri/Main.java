@@ -57,7 +57,6 @@ public class Main {
                                 sb.append("</ul></div></html>");
                                 String outputString = sb.toString();
                                 queueFrame.updateLabel(outputString);
-                                Thread.sleep(5000);
                             }
 
                 } catch (Exception ex){
