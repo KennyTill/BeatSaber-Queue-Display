@@ -6,6 +6,7 @@ public class Main {
 
         if (args.length == 0){
             System.out.println("No file path specified");
+            System.exit(0);
         }
 
         String filePath = args[0];
@@ -22,44 +23,46 @@ public class Main {
         TransparentFrame queueFrame = new TransparentFrame("someinfo", 20, postionValues[2], postionValues[3]);
         queueFrame.setLocation(960, 50);
         queueFrame.setVisible(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    QueueFileReader queueReader = new QueueFileReader(filePath);
 
-        try {
-            QueueFileReader queueReader = new QueueFileReader(filePath);
+                            while (true) {
+                                String[] queueData = queueReader.readFile();
+                                StringBuilder sb = new StringBuilder();
+                                //lets split this up and refactor it later.
+                                for (int i = 0; i < queueData.length; i++) {
+                                    String[] lineSplit = queueData[i].split("`");//using backticks because some song names are weird =/
+                                    String pluralForm;
+                                    if (i == 0) {
+                                        playerFrame.updateLabel(lineSplit[0]);
+                                        sb.append("<html><div style=\"text-align:left\"><ul style=\"list-style-type:none\">");
+                                        for (int j = 1; j < lineSplit.length; j++) {
+                                            sb.append("<li>" + lineSplit[j] + "</li>");
+                                        }
+                                        sb.append("</ul><br><p style=\"text-align:center\">--------Queue:--------</p><ul style=\"list-style-type:square\">");
 
+                                    } else {
+                                        int numberOfSongsQueued = lineSplit.length - 1;
+                                        if (numberOfSongsQueued > 1) {
+                                            pluralForm = "songs";
+                                        } else {
+                                            pluralForm = "song";
+                                        }
+                                        sb.append("<li>" + lineSplit[0] + " -  " + numberOfSongsQueued + " " + pluralForm + "</li>"); //upcoming player and song count.
+                                    }
+                                }
+                                sb.append("</ul></div></html>");
+                                String outputString = sb.toString();
+                                queueFrame.updateLabel(outputString);
+                            }
 
-            while (true) {
-                String[] queueData = queueReader.readFile();
-                StringBuilder sb = new StringBuilder();
-                //lets split this up and refactor it later.
-                for (int i = 0; i < queueData.length; i++){
-                    String[] lineSplit = queueData[i].split("`");//using backticks because some song names are weird =/
-                    String pluralForm;
-                    if (i == 0){
-                        playerFrame.updateLabel(lineSplit[0]);
-                        sb.append("<html><div style=\"text-align:left\"><ul style=\"list-style-type:none\">");
-                        for (int j = 1; j < lineSplit.length; j++){
-                            sb.append("<li>"+ lineSplit[j] + "</li>");
-                        }
-                        sb.append("</ul><br><p style=\"text-align:center\">--------Queue:--------</p><ul style=\"list-style-type:square\">");
-
-                    } else {
-                        int numberOfSongsQueued = lineSplit.length - 1;
-                        if (numberOfSongsQueued > 1){
-                            pluralForm = "songs";
-                        } else {
-                            pluralForm = "song";
-                        }
-                        sb.append("<li>" + lineSplit[0] + " -  " + numberOfSongsQueued + " " + pluralForm + "</li>"); //upcoming player and song count.
-                    }
+                } catch (Exception ex){
+                    System.out.println(ex);
                 }
-                sb.append("</ul></div></html>");
-                String outputString = sb.toString();
-                queueFrame.updateLabel(outputString);
-                Thread.sleep(5000);
             }
-
-        } catch (Exception ex){
-            System.out.println(ex);
-        }
+        }).start();
     }
 }
